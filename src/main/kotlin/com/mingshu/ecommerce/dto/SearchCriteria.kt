@@ -7,8 +7,7 @@ import lombok.Setter
 @Getter
 @Setter
 class SearchCriteria {
-
-	val key: String = ""
-	val value: String = ""
-	val operation: SearchOperation = SearchOperation.EQUAL
+    val key: String = ""
+    val value: String = ""
+    val operation: SearchOperation = SearchOperation.EQUAL
 }

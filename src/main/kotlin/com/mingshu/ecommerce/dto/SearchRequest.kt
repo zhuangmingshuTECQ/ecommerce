@@ -1,9 +1,7 @@
 package com.mingshu.ecommerce.dto
 
-class SearchRequest {
-
-	val searchCriteriaList : List<SearchCriteria> = listOf()
-	val page : Int = 0
-	val size : Int = 0
-
-}
+data class SearchRequest(
+    val searchCriteriaList: List<SearchCriteria>,
+    val page: Int,
+    val size: Int,
+)

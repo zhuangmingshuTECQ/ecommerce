@@ -6,37 +6,29 @@ import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Predicate
 import javax.persistence.criteria.Root
 
-class GenericSpecification<T>: Specification<T> {
+class GenericSpecification<T> : Specification<T> {
+    enum class SearchOperation {
+        EQUAL,
+        CONTAIN,
+        GREATER_THAN,
+        LESS_THAN,
+    }
 
-	private var list: List<SearchCriteria> = listOf()
-	fun add(criteria: SearchCriteria) {
-		with(list) { add(criteria) }
-	}
+    private var list: ArrayList<SearchCriteria> = arrayListOf()
+    fun add(criteria: SearchCriteria) {
+        list.add(criteria)
+    }
 
-	override fun toPredicate(root: Root<T>, query: CriteriaQuery<*>, criteriaBuilder: CriteriaBuilder): Predicate? {
-
-		var predicates = ArrayList<Predicate>()
-
-		for (searchCriteria in list) {
-			when (searchCriteria.operation) {
-				SearchOperation.EQUAL -> predicates.add(criteriaBuilder.equal(root.get<String>(searchCriteria.key), searchCriteria.value))
-				SearchOperation.CONTAIN -> TODO()
-				SearchOperation.GREATER_THAN -> TODO()
-				SearchOperation.LESS_THAN -> TODO()
-			}
-
-		}
-
-		return criteriaBuilder.and(*predicates.toTypedArray())
-
-	}
-
-	public enum class SearchOperation {
-		EQUAL,
-		CONTAIN,
-		GREATER_THAN,
-		LESS_THAN
-
-	}
-
+    override fun toPredicate(root: Root<T>, query: CriteriaQuery<*>, builder: CriteriaBuilder): Predicate? {
+        val predicates = ArrayList<Predicate>()
+        for (criteria in list) {
+            when (criteria.operation) {
+                SearchOperation.EQUAL -> predicates.add(builder.equal(root.get<String>(criteria.key),criteria.value))
+                SearchOperation.CONTAIN -> TODO()
+                SearchOperation.GREATER_THAN -> TODO()
+                SearchOperation.LESS_THAN -> TODO()
+            }
+        }
+        return builder.and(*predicates.toTypedArray())
+    }
 }
