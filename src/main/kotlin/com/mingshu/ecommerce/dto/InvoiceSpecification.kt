@@ -2,7 +2,6 @@ package com.mingshu.ecommerce.dto
 
 import com.mingshu.ecommerce.model.Invoice
 import org.springframework.data.jpa.domain.Specification
-import java.math.BigDecimal
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 import javax.persistence.criteria.Root
@@ -20,8 +19,6 @@ public class InvoiceSpecification {
                 builder.like(builder.lower(root.get("invoiceNo")), finalText),
                 builder.like(builder.lower(root.get("stockCode")), finalText),
                 builder.like(builder.lower(root.get("description")), finalText),
-                builder.equal(root.get<BigDecimal>("quantity"), BigDecimal(text)),
-                builder.equal(root.get<BigDecimal>("unitPrice"), BigDecimal(text)),
                 builder.like(builder.lower(root.get("customerID")), finalText),
                 builder.like(builder.lower(root.get("country")), finalText),
             )
