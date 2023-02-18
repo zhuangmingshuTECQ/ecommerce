@@ -9,13 +9,11 @@ import com.mingshu.ecommerce.service.InvoiceService
 import lombok.extern.log4j.Log4j2
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
+@CrossOrigin("http://localhost:3000")
 @Log4j2
 @RestController
 class InvoiceController(private val invoiceService: InvoiceService) {
@@ -26,11 +24,16 @@ class InvoiceController(private val invoiceService: InvoiceService) {
         return UploadResponse("Success")
     }
 
-    @PostMapping("/search", consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping("/transactions", consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun displayInvoices(@RequestBody searchRequest: SearchRequest): ResponseEntity<SearchResponse> {
         val specification: GenericSpecification<Invoice> = GenericSpecification()
         searchRequest.searchCriteriaList.forEach(specification::add)
 
         return ResponseEntity.ok(invoiceService.displayInvoices(specification, searchRequest.page, searchRequest.size))
+    }
+
+    @GetMapping("/transactions")
+    fun showAll(@RequestParam(name = "page") page: Int): ResponseEntity<SearchResponse> {
+        return ResponseEntity.ok(invoiceService.findAll(page))
     }
 }

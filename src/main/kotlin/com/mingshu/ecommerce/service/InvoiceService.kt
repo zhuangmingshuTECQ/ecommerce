@@ -10,5 +10,5 @@ interface InvoiceService {
 	fun uploadCsv(file: MultipartFile)
 
 	fun displayInvoices(specification: GenericSpecification<Invoice>, page: Int, size: Int): SearchResponse
-
+	fun findAll(page: Int): SearchResponse
 }
