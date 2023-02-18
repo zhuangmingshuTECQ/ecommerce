@@ -1,16 +1,12 @@
 package com.mingshu.ecommerce.controller
 
-import com.mingshu.ecommerce.dto.GenericSpecification
-import com.mingshu.ecommerce.dto.SearchRequest
-import com.mingshu.ecommerce.dto.SearchResponse
-import com.mingshu.ecommerce.dto.UploadResponse
+import com.mingshu.ecommerce.dto.*
 import com.mingshu.ecommerce.model.Invoice
 import com.mingshu.ecommerce.service.InvoiceService
 import lombok.extern.log4j.Log4j2
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-
 import org.springframework.web.multipart.MultipartFile
 
 @CrossOrigin("http://localhost:3000")
@@ -33,7 +29,10 @@ class InvoiceController(private val invoiceService: InvoiceService) {
     }
 
     @GetMapping("/transactions")
-    fun showAll(@RequestParam(name = "page") page: Int): ResponseEntity<SearchResponse> {
-        return ResponseEntity.ok(invoiceService.findAll(page))
+    fun showAll(
+        @RequestParam(name = "query") query: String,
+        @RequestParam(name = "page") page: Int
+    ): ResponseEntity<SearchResponse> {
+        return ResponseEntity.ok(invoiceService.findAll(query, page))
     }
 }

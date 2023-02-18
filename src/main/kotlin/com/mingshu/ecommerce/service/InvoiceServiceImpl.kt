@@ -1,6 +1,7 @@
 package com.mingshu.ecommerce.service
 
 import com.mingshu.ecommerce.dto.GenericSpecification
+import com.mingshu.ecommerce.dto.InvoiceSpecification
 import com.mingshu.ecommerce.dto.SearchResponse
 import com.mingshu.ecommerce.dto.toInvoiceDto
 import com.mingshu.ecommerce.model.Invoice
@@ -36,10 +37,10 @@ class InvoiceServiceImpl(private val invoiceRepository: InvoiceRepository) : Inv
         return response
     }
     
-    override fun findAll(page: Int): SearchResponse {
+    override fun findAll(query:String, page: Int): SearchResponse {
         val response = SearchResponse()
         val pageable: Pageable = PageRequest.of(page, 30)
-        val invoicePage: Page<Invoice> = invoiceRepository.findAll(pageable)
+        val invoicePage: Page<Invoice> = invoiceRepository.findAll(InvoiceSpecification().containsTextInAttributes(query), pageable)
         response.invoices = invoicePage.content.stream().map { it.toInvoiceDto() }.collect(Collectors.toList())
         response.totalElements = invoicePage.totalElements
 
